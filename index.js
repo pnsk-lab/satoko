@@ -1,4 +1,3 @@
-/* $Id: index.js 12 2024-07-03 14:59:56Z nishi $ */
 const {Client, GatewayIntentBits, PermissionsBitField} = require("discord.js");
 const {Collection} = require("@discordjs/collection");
 const vdjs = require("@discordjs/voice");
