@@ -601,9 +601,14 @@ function replTemp(members){
 	}
 }
 
+function short_phoneme(b1, ph, du, pi, b2){
+	du = Math.max(du, 2000);
+	return b1 + ph + "<" + du + "," + pi + ">" + b2;
+}
+
 client.on("messageCreate", async(m)=>{
 	if(m.member && m.member.user.id != client.user.id && subscribed[m.channel.id] && !m.content.startsWith("_") && !m.member.user.bot && m.content){
-		let cont = m.content.replace(/```[^\n]*\n.*```/gms, "コードブロック省略").replace(/\|\|.+?\|\|/g, "スポイラー").replace(/<([@])([0-9]+)>/g, replTemp(m.guild.members)).replace(/<:([^:]+):[0-9]+>/g, "$1").replace(URLPattern, resolveURL).replace(/\n/g, " ");
+		let cont = m.content.replace(/```[^\n]*\n.*```/gms, "コードブロック省略").replace(/\|\|.+?\|\|/g, "スポイラー").replace(/<([@])([0-9]+)>/g, replTemp(m.guild.members)).replace(/<:([^:]+):[0-9]+>/g, "$1").replace(URLPattern, resolveURL).replace(/\n/g, " ").replace(/(\b)([a-zA-Z_]+)<([0-9]+),([0-9]+)>(\b)/, short_phoneme);
 		for(let type of ["user", "guild"]){
 			let id = type == "user" ? m.member.user.id : m.guild.id;
 			if(fs.existsSync("custom/" + type + "-" + id + ".json")){
