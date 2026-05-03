@@ -375,9 +375,9 @@ client.on("voiceStateUpdate", async(oldst, newst) => {
 		if(oldst.channel != newst.channel){
 			for(let i of Object.keys(subscribed)){
 				if(newst.channel && subscribed[i].vc == newst.channel.id){
-					subscribed[i].queue.push({content: (newst.member.nickname ?? newst.member.displayName) + "が参加しましたわ！"});
+					subscribed[i].queue.push({content: phon((newst.member.nickname ?? newst.member.displayName) + "が参加しましたわ！")});
 				}else if(oldst.channel && subscribed[i].vc == oldst.channel.id){
-					subscribed[i].queue.push({content: (newst.member.nickname ?? newst.member.displayName) + "が退出しましたわ"});
+					subscribed[i].queue.push({content: phon((newst.member.nickname ?? newst.member.displayName) + "が退出しましたわ")});
 				}
 			}
 		}
@@ -606,9 +606,13 @@ function short_phoneme(e, ph, du, pi){
 	return ph + "<" + du + "," + pi + ">";
 }
 
+function phon(c){
+	return c.replace(/([a-zA-Z_]+)<([0-9]+),([0-9]+)>/, short_phoneme);
+}
+
 client.on("messageCreate", async(m)=>{
 	if(m.member && m.member.user.id != client.user.id && subscribed[m.channel.id] && !m.content.startsWith("_") && !m.member.user.bot && m.content){
-		let cont = m.content.replace(/```[^\n]*\n.*```/gms, "コードブロック省略").replace(/\|\|.+?\|\|/g, "スポイラー").replace(/<([@])([0-9]+)>/g, replTemp(m.guild.members)).replace(/<:([^:]+):[0-9]+>/g, "$1").replace(URLPattern, resolveURL).replace(/\n/g, " ").replace(/([a-zA-Z_]+)<([0-9]+),([0-9]+)>/, short_phoneme);
+		let cont = phon(m.content.replace(/```[^\n]*\n.*```/gms, "コードブロック省略").replace(/\|\|.+?\|\|/g, "スポイラー").replace(/<([@])([0-9]+)>/g, replTemp(m.guild.members)).replace(/<:([^:]+):[0-9]+>/g, "$1").replace(URLPattern, resolveURL).replace(/\n/g, " "));
 		for(let type of ["user", "guild"]){
 			let id = type == "user" ? m.member.user.id : m.guild.id;
 			if(fs.existsSync("custom/" + type + "-" + id + ".json")){
