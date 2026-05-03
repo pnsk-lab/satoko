@@ -4,6 +4,20 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  lodash@<=4.17.23: '>=4.18.0'
+  lodash@>=4.0.0 <=4.17.22: '>=4.17.23'
+  lodash@>=4.0.0 <=4.17.23: '>=4.18.0'
+  pnpm@<10.26.0: '>=10.26.0'
+  pnpm@<10.28.1: '>=10.28.1'
+  pnpm@<10.28.2: '>=10.28.2'
+  pnpm@>=10.0.0 <10.26.0: '>=10.26.0'
+  pnpm@>=6.25.0 <10.27.0: '>=10.27.0'
+  undici@<6.23.0: '>=6.23.0'
+  undici@<6.24.0: '>=6.24.0'
+  undici@>=6.0.0 <6.24.0: '>=6.24.0'
+  uuid@<14.0.0: '>=14.0.0'
+
 importers:
 
   .:
@@ -24,14 +38,14 @@ importers:
         specifier: 0.0.8
         version: 0.0.8
       pnpm:
-        specifier: 10.25.0
-        version: 10.25.0
+        specifier: '>=10.27.0'
+        version: 10.33.2
       regexp.escape:
         specifier: 2.0.1
         version: 2.0.1
       uuid:
-        specifier: ^9.0.1
-        version: 9.0.1
+        specifier: '>=14.0.0'
+        version: 14.0.0
 
 packages:
 
@@ -444,8 +458,8 @@ packages:
   lodash.snakecase@4.1.1:
     resolution: {integrity: sha512-QZ1d4xoBHYUeuouhEq3lk3Uq7ldgyFXGBhg04+oRLnIz8o9T65Eh+8YdroUwn846zchkA9yDsDl5CVVaV2nqYw==}
 
-  lodash@4.17.21:
-    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+  lodash@4.18.1:
+    resolution: {integrity: sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==}
 
   magic-bytes.js@1.10.0:
     resolution: {integrity: sha512-/k20Lg2q8LE5xiaaSkMXk4sfvI+9EGEykFS4b0CHHGWqDYU0bGUFSwchNOMA56D7TCs9GwVTkqe9als1/ns8UQ==}
@@ -473,8 +487,8 @@ packages:
     resolution: {integrity: sha512-qFOyK5PjiWZd+QQIh+1jhdb9LpxTF0qs7Pm8o5QHYZ0M3vKqSqzsZaEB6oWlxZ+q2sJBMI/Ktgd2N5ZwQoRHfg==}
     engines: {node: '>= 0.4'}
 
-  pnpm@10.25.0:
-    resolution: {integrity: sha512-XoJjkCevN8+DIGG8xtY5whljRIjg8rrr54UCink957Ul/80/f/V09emGBlTgmP6FK6isXdXO/hdn0joCCpL1AQ==}
+  pnpm@10.33.2:
+    resolution: {integrity: sha512-qQ+vb+6rca1sblf5Tg/hoS9dzCLNdU20CulZPraj4LaxLjVAIYuzeuCDQEsfLObbKkEh6XmCm0r/lLmfSdoc+A==}
     engines: {node: '>=18.12'}
     hasBin: true
 
@@ -599,12 +613,12 @@ packages:
   undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
 
-  undici@6.21.3:
-    resolution: {integrity: sha512-gBLkYIlEnSp8pFbT64yFgGE6UIB9tAkhukC23PmMDCe5Nd+cRqKxSjw5y54MK2AZMgZfJWMaNE4nYUHgi1XEOw==}
-    engines: {node: '>=18.17'}
+  undici@8.2.0:
+    resolution: {integrity: sha512-Z+4Hx9GE26Lh9Upwfnc8C7SsrpBPGaM/Gm6kMFtiG7c+5IvQKlXi/t+9x9DrrCh29cww5TSP9YdVaBcnLDs5fQ==}
+    engines: {node: '>=22.19.0'}
 
-  uuid@9.0.1:
-    resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
+  uuid@14.0.0:
+    resolution: {integrity: sha512-Qo+uWgilfSmAhXCMav1uYFynlQO7fMFiMVZsQqZRMIXp0O7rR7qjkj+cPvBHLgBqi960QCoo/PH2/6ZtVqKvrg==}
     hasBin: true
 
   which-boxed-primitive@1.1.1:
@@ -665,7 +679,7 @@ snapshots:
       discord-api-types: 0.38.40
       magic-bytes.js: 1.10.0
       tslib: 2.6.3
-      undici: 6.21.3
+      undici: 8.2.0
 
   '@discordjs/util@1.2.0':
     dependencies:
@@ -731,7 +745,7 @@ snapshots:
   '@sapphire/shapeshift@4.0.0':
     dependencies:
       fast-deep-equal: 3.1.3
-      lodash: 4.17.21
+      lodash: 4.18.1
 
   '@sapphire/snowflake@3.5.3': {}
 
@@ -897,7 +911,7 @@ snapshots:
       lodash.snakecase: 4.1.1
       magic-bytes.js: 1.10.0
       tslib: 2.6.3
-      undici: 6.21.3
+      undici: 8.2.0
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -1164,7 +1178,7 @@ snapshots:
 
   lodash.snakecase@4.1.1: {}
 
-  lodash@4.17.21: {}
+  lodash@4.18.1: {}
 
   magic-bytes.js@1.10.0: {}
 
@@ -1191,7 +1205,7 @@ snapshots:
       object-keys: 1.1.1
       safe-push-apply: 1.0.0
 
-  pnpm@10.25.0: {}
+  pnpm@10.33.2: {}
 
   possible-typed-array-names@1.1.0: {}
 
@@ -1373,9 +1387,9 @@ snapshots:
 
   undici-types@5.26.5: {}
 
-  undici@6.21.3: {}
+  undici@8.2.0: {}
 
-  uuid@9.0.1: {}
+  uuid@14.0.0: {}
 
   which-boxed-primitive@1.1.1:
     dependencies:
