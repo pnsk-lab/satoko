@@ -8,6 +8,7 @@ const owner = "916986454104739860";
 let lock = false;
 let htsvoice = JSON.parse(fs.readFileSync("htsvoice.json") + "");
 let locks = {};
+const CLOCK_MAX_SECONDS = 2;
 
 const guild_dict_perm = PermissionsBitField.Flags.ManageMessages;
 
@@ -34,6 +35,47 @@ let subscribed = {
 const dict = {
 	"bun": "ばん"
 };
+
+function shellQuote(path){
+	return "'" + path.replace(/'/g, "'\\''") + "'";
+}
+
+async function getAudioDurationSeconds(path){
+	const {stdout} = await execPromise(`ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 ${shellQuote(path)}`);
+	return Number(stdout.trim());
+}
+
+function atempoFilter(speed){
+	const filters = [];
+
+	while(speed > 2){
+		filters.push("atempo=2");
+		speed /= 2;
+	}
+
+	filters.push("atempo=" + speed.toFixed(6));
+
+	return filters.join(",");
+}
+
+async function fitClockAudio(path){
+	const duration = await getAudioDurationSeconds(path);
+
+	if(!Number.isFinite(duration) || duration <= CLOCK_MAX_SECONDS) return;
+
+	const tmp = path.replace(/\.wav$/i, "-clockfit.wav");
+	const speed = duration / CLOCK_MAX_SECONDS;
+
+	try{
+		await execPromise(`ffmpeg -y -i ${shellQuote(path)} -filter:a "${atempoFilter(speed)},atrim=duration=${CLOCK_MAX_SECONDS}" -ar 48000 -ac 1 ${shellQuote(tmp)}`);
+		fs.renameSync(tmp, path);
+	}catch(e){
+		try{
+			fs.rmSync(tmp);
+		}catch{}
+		throw e;
+	}
+}
 
 client.once("clientReady", async()=>{
 	client.user.presence.set({
@@ -201,6 +243,7 @@ client.once("clientReady", async()=>{
 					fs.writeFileSync(txtname, "file 'clock_start.wav'\n" + "file 'clock_bong.wav'\n".repeat(subscribed[i].queue[0].count));
 
 					await execPromise("ffmpeg -f concat -safe 0 -i " + txtname + " -c copy " + wavname);
+					await fitClockAudio(wavname);
 
 					fs.rmSync(txtname);
 
