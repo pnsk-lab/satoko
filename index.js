@@ -351,7 +351,7 @@ client.once("clientReady", async()=>{
 				subscribed[i].using = 1;
 
 				subscribed[i].player.once("idle", (oldst, newst)=>{
-					fs.rmSync(audiopath);
+					if(fs.existsSync(audiopath)) fs.rmSync(audiopath);
 					subscribed[i].queue.shift();
 					subscribed[i].using = 0;
 				});
