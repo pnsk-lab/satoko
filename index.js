@@ -248,6 +248,8 @@ client.once("clientReady", async()=>{
 					fs.rmSync(txtname);
 
 					audiopath = wavname;
+				}else if(subscribed[i].queue[0].nakasyou){
+					audiopath = "nakasyou.mp3";
 				}else{
 					const u = require("uuid").v4();
 					const wavname = u + ".wav";
@@ -655,23 +657,27 @@ function phon(c){
 
 client.on("messageCreate", async(m)=>{
 	if(m.member && m.member.user.id != client.user.id && m.member.user.id != "!1192412739163914273" && subscribed[m.channel.id] && !m.content.startsWith("_") && !m.member.user.bot && m.content){
-		let cont = phon(m.content.replace(/```[^\n]*\n.*```/gms, "コードブロック省略").replace(/\|\|.+?\|\|/g, "スポイラー").replace(/<([@])([0-9]+)>/g, replTemp(m.guild.members)).replace(/<:([^:]+):[0-9]+>/g, "$1").replace(URLPattern, resolveURL).replace(/\n/g, " "));
-		for(let type of ["user", "guild"]){
-			let id = type == "user" ? m.member.user.id : m.guild.id;
-			if(fs.existsSync("custom/" + type + "-" + id + ".json")){
-				let dict = {};
-				try{
-					dict = JSON.parse(fs.readFileSync("custom/" + type + "-" + id + ".json") + "");
-				}catch{
-					continue;
-				}
-
-				for(let key of Object.keys(dict)){
-					cont = cont.replace(new RegExp(require("regexp.escape")(key), "gi"), dict[key]);
+		if(m.content.match(/ｯｽｰ\.\.\.中村承太郎です。/)){
+			subscribed[m.channel.id].queue.push({nakasyou: true});
+		}else{
+			let cont = phon(m.content.replace(/```[^\n]*\n.*```/gms, "コードブロック省略").replace(/\|\|.+?\|\|/g, "スポイラー").replace(/<([@])([0-9]+)>/g, replTemp(m.guild.members)).replace(/<:([^:]+):[0-9]+>/g, "$1").replace(URLPattern, resolveURL).replace(/\n/g, " "));
+			for(let type of ["user", "guild"]){
+				let id = type == "user" ? m.member.user.id : m.guild.id;
+				if(fs.existsSync("custom/" + type + "-" + id + ".json")){
+					let dict = {};
+					try{
+						dict = JSON.parse(fs.readFileSync("custom/" + type + "-" + id + ".json") + "");
+					}catch{
+						continue;
+					}
+	
+					for(let key of Object.keys(dict)){
+						cont = cont.replace(new RegExp(require("regexp.escape")(key), "gi"), dict[key]);
+					}
 				}
 			}
+			subscribed[m.channel.id].queue.push({content: cont, msg: m, htsvoice: htsvoice[m.member.user.id] ?? "tohoku"});
 		}
-		subscribed[m.channel.id].queue.push({content: cont, msg: m, htsvoice: htsvoice[m.member.user.id] ?? "tohoku"});
 	}
 });
 
