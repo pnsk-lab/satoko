@@ -654,7 +654,7 @@ function phon(c){
 }
 
 client.on("messageCreate", async(m)=>{
-	if(m.member && m.member.user.id != client.user.id && subscribed[m.channel.id] && !m.content.startsWith("_") && !m.member.user.bot && m.content && m.member.user.id != "1192412739163914273"){
+	if(m.member && m.member.user.id != client.user.id && subscribed[m.channel.id] && !m.content.startsWith("_") && !m.member.user.bot && m.content){
 		let cont = phon(m.content.replace(/```[^\n]*\n.*```/gms, "コードブロック省略").replace(/\|\|.+?\|\|/g, "スポイラー").replace(/<([@])([0-9]+)>/g, replTemp(m.guild.members)).replace(/<:([^:]+):[0-9]+>/g, "$1").replace(URLPattern, resolveURL).replace(/\n/g, " "));
 		for(let type of ["user", "guild"]){
 			let id = type == "user" ? m.member.user.id : m.guild.id;
