@@ -234,6 +234,8 @@ client.once("clientReady", async()=>{
 				subscribed[i].queue.push({clock: true, count: h});
 			}
 			if(!subscribed[i].using && subscribed[i].queue.length > 0){
+				let norm = false;
+
 				audiopath = "";
 				if(subscribed[i].queue[0].clock){
 					const u = require("uuid").v4();
@@ -250,6 +252,8 @@ client.once("clientReady", async()=>{
 					audiopath = wavname;
 				}else if(subscribed[i].queue[0].nakasyou){
 					audiopath = "nakasyou.mp3";
+
+					norm = true;
 				}else{
 					const u = require("uuid").v4();
 					const wavname = u + ".wav";
@@ -353,7 +357,7 @@ client.once("clientReady", async()=>{
 				subscribed[i].using = 1;
 
 				subscribed[i].player.once("idle", (oldst, newst)=>{
-					if(fs.existsSync(audiopath)) fs.rmSync(audiopath);
+					if(fs.existsSync(audiopath) && !norm) fs.rmSync(audiopath);
 					subscribed[i].queue.shift();
 					subscribed[i].using = 0;
 				});
