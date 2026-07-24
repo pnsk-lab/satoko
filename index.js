@@ -667,7 +667,7 @@ function phon(c){
 }
 
 client.on("messageCreate", async(m)=>{
-	if(m.member && m.member.user.id != client.user.id && (deny_nakasyou && m.member.user.id != "1192412739163914273") && subscribed[m.channel.id] && !m.content.startsWith("_") && !m.member.user.bot && m.content){
+	if(m.member && m.member.user.id != client.user.id && (!deny_nakasyou || m.member.user.id != "1192412739163914273") && subscribed[m.channel.id] && !m.content.startsWith("_") && !m.member.user.bot && m.content){
 		if(m.content.match(/ｯｽｰ\.\.\.中村承太郎です。/)){
 			subscribed[m.channel.id].queue.push({nakasyou: true});
 		}else{
