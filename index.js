@@ -9,6 +9,7 @@ let lock = false;
 let htsvoice = JSON.parse(fs.readFileSync("htsvoice.json") + "");
 let locks = {};
 const CLOCK_MAX_SECONDS = 2;
+const deny_nakasyou = false;
 
 const guild_dict_perm = PermissionsBitField.Flags.ManageMessages;
 
@@ -354,12 +355,12 @@ client.once("clientReady", async()=>{
 				});
 				resource.volume.setVolume(1.0);
 
-				subscribed[i].using = 1;
+				subscribed[i].using = true;
 
 				subscribed[i].player.once("idle", (oldst, newst)=>{
 					if(fs.existsSync(audiopath) && !norm) fs.rmSync(audiopath);
 					subscribed[i].queue.shift();
-					subscribed[i].using = 0;
+					subscribed[i].using = false;
 				});
 
 				subscribed[i].player.play(resource);
@@ -435,6 +436,12 @@ client.on("voiceStateUpdate", async(oldst, newst) => {
 
 client.on("interactionCreate", async(interaction)=>{
 	if(!interaction.isCommand()) return;
+	if(deny_nakasyou && interaction.member.user.id == "1192412739163914273"){
+		await interaction.reply({
+			content: "denied"
+		});
+		return;
+	}
 	if(interaction.commandName == "ping"){
 		await interaction.reply({
 			content: "オーホッホッホ！"
@@ -660,7 +667,7 @@ function phon(c){
 }
 
 client.on("messageCreate", async(m)=>{
-	if(m.member && m.member.user.id != client.user.id && m.member.user.id != "!1192412739163914273" && subscribed[m.channel.id] && !m.content.startsWith("_") && !m.member.user.bot && m.content){
+	if(m.member && m.member.user.id != client.user.id && (deny_nakasyou && m.member.user.id != "1192412739163914273") && subscribed[m.channel.id] && !m.content.startsWith("_") && !m.member.user.bot && m.content){
 		if(m.content.match(/ｯｽｰ\.\.\.中村承太郎です。/)){
 			subscribed[m.channel.id].queue.push({nakasyou: true});
 		}else{
