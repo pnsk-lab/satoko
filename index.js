@@ -259,7 +259,7 @@ client.once("clientReady", async()=>{
 					const u = require("uuid").v4();
 					const wavname = u + ".wav";
 					const txtname = u + ".txt";
-					let c = subscribed[i].queue[0].content.split(/([a-zA-Z0-9_\-:\[\]<>,\.'"\n ]+|[^a-zA-Z]+)/g).map(x=>x.replace(/^[ \t]+|[ \t]+$/, "")).filter(x=>x);
+					let c = subscribed[i].queue[0].content.split(/([a-zA-Z0-9_\-:\[\]<>,\.'"\n ]+|[^a-zA-Z ]+)/g).map(x=>x.replace(/^[ \t]+|[ \t]+$/, "")).filter(x=>x);
 					let n = 1;
 					let pr = [];
 	
