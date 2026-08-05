@@ -236,8 +236,8 @@ client.once("clientReady", async()=>{
 			}
 			if(!subscribed[i].using && subscribed[i].queue.length > 0){
 				let norm = false;
+				let audiopath = "";
 
-				audiopath = "";
 				if(subscribed[i].queue[0].clock){
 					const u = require("uuid").v4();
 					const wavname = u + ".wav";
