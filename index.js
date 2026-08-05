@@ -671,7 +671,7 @@ client.on("messageCreate", async(m)=>{
 		if(m.content.match(/ｯｽｰ\.\.\.中村承太郎です。/)){
 			subscribed[m.channel.id].queue.push({nakasyou: true});
 		}else{
-			let cont = phon(m.content.replace(/```[^\n]*\n.*```/gms, "コードブロック省略").replace(/\|\|.+?\|\|/g, "スポイラー").replace(/<([@])([0-9]+)>/g, replTemp(m.guild.members)).replace(/<:([^:]+):[0-9]+>/g, "$1").replace(URLPattern, resolveURL).replace(/\n/g, " "));
+			let cont = phon(m.content.replace(/```[^\n]*\n.*```/gms, "コードブロック省略").replace(/\|\|.+?\|\|/g, "スポイラー").replace(/<@\$[0-9]+>/g, "ゲーム").replace(/<([@])([0-9]+)>/g, replTemp(m.guild.members)).replace(/<:([^:]+):[0-9]+>/g, "$1").replace(URLPattern, resolveURL).replace(/\n/g, " "));
 			for(let type of ["user", "guild"]){
 				let id = type == "user" ? m.member.user.id : m.guild.id;
 				if(fs.existsSync("custom/" + type + "-" + id + ".json")){
