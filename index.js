@@ -294,7 +294,7 @@ client.once("clientReady", async()=>{
 								fs.renameSync(`2-${out}`, out);
 							}else{
 								try{
-									await execPromise(`/usr/dectalk/bin/say ${out} ${inf}`);
+									await execPromise(`/usr/dectalk/bin/say --output ${out} --input ${inf}`);
 								}catch{
 									f = true;
 								}
