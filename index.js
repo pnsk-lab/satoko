@@ -259,7 +259,7 @@ client.once("clientReady", async()=>{
 					const u = require("uuid").v4();
 					const wavname = u + ".wav";
 					const txtname = u + ".txt";
-					let c = subscribed[i].queue[0].content.split(/([a-zA-Z0-9_\-:\[\]<>,\.'"\n ]+|[^a-zA-Z ]+)/g).map(x=>x.replace(/^[ \t]+|[ \t]+$/, "")).filter(x=>x);
+					let c = subscribed[i].queue[0].content.split(/([a-zA-Z0-9_\-:\[\]<>,\.'"\n! ]+|[^a-zA-Z! ]+)/g).map(x=>x.replace(/^[ \t]+|[ \t]+$/, "")).filter(x=>x);
 					let n = 1;
 					let pr = [];
 	
@@ -273,7 +273,7 @@ client.once("clientReady", async()=>{
 	
 							fs.writeFileSync(inf, j);
 	
-							if(j.match(/[^a-zA-Z0-9_\-:\[\]<>,\.'"\n ]+/)){
+							if(j.match(/[^a-zA-Z0-9_\-:\[\]<>,\.'"\n! ]+/)){
 								try{
 									await execPromise(`/usr/jtalk/bin/open_jtalk -r 1 -x /usr/jtalk/dic -m ${(subscribed[i].queue[0].htsvoice ?? subscribed[i].htsvoice)}.htsvoice -ow ${out} ${inf}`);
 								}catch{
@@ -672,6 +672,7 @@ client.on("messageCreate", async(m)=>{
 			subscribed[m.channel.id].queue.push({nakasyou: true});
 		}else{
 			let cont = phon(m.content.replace(/```[^\n]*\n.*```/gms, "コードブロック省略").replace(/\|\|.+?\|\|/g, "スポイラー").replace(/<@\$[0-9]+>/g, "ゲーム").replace(/<([@])([0-9]+)>/g, replTemp(m.guild.members)).replace(/<:([^:]+):[0-9]+>/g, "$1").replace(URLPattern, resolveURL).replace(/\n/g, " "));
+				console.log(cont);
 			for(let type of ["user", "guild"]){
 				let id = type == "user" ? m.member.user.id : m.guild.id;
 				if(fs.existsSync("custom/" + type + "-" + id + ".json")){
