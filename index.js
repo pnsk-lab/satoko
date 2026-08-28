@@ -259,7 +259,7 @@ client.once("clientReady", async()=>{
 					const u = require("uuid").v4();
 					const wavname = u + ".wav";
 					const txtname = u + ".txt";
-					let c = subscribed[i].queue[0].content.split(/([a-zA-Z0-9_\-:\[\]<>,\.'"\n!?\^\$ ]+|[^a-zA-Z!?\^\$ ]+)/g).map(x=>x.replace(/^[ \t]+|[ \t]+$/, "")).filter(x=>x);
+					let c = subscribed[i].queue[0].content.split(/([a-zA-Z0-9_\-:\[\]<>,\.'"\n!?\^\$\% ]+|[^a-zA-Z!?\^\$\% ]+)/g).map(x=>x.replace(/^[ \t]+|[ \t]+$/, "")).filter(x=>x);
 					let n = 1;
 					let pr = [];
 	
@@ -273,7 +273,7 @@ client.once("clientReady", async()=>{
 	
 							fs.writeFileSync(inf, j);
 	
-							if(j.match(/[^a-zA-Z0-9_\-:\[\]<>,\.'"\n!?\^\$ ]+/)){
+							if(j.match(/[^a-zA-Z0-9_\-:\[\]<>,\.'"\n!?\^\$\% ]+/)){
 								try{
 									await execPromise(`/usr/jtalk/bin/open_jtalk -r 1 -x /usr/jtalk/dic -m ${(subscribed[i].queue[0].htsvoice ?? subscribed[i].htsvoice)}.htsvoice -ow ${out} ${inf}`);
 								}catch{
