@@ -464,8 +464,8 @@ client.on("interactionCreate", async(interaction)=>{
 				});
 			}
 		}else{
-			let user_chan = interaction.guild.channels.cache.filter(x=>x.type == 2 && x.members.find(x=>x.user.id == interaction.member.user.id));
-			if(user_chan.first()){
+			let user_chan = interaction.guild.channels ? (interaction.guild.channels.cache.filter(x=>x.type == 2 && x.members.find(x=>x.user.id == interaction.member.user.id))) : null;
+			if(user_chan && user_chan.first()){
 				await join_vc(interaction, user_chan.first(), (interaction.options.getChannel("read-channel") ?? interaction.channel), user_chan.first().guild);
 			}else{
 				await interaction.reply({
@@ -474,8 +474,8 @@ client.on("interactionCreate", async(interaction)=>{
 			}
 		}
 	}else if(interaction.commandName == "purge"){
-		let user_chan = interaction.guild.channels.cache.filter(x=>x.type == 2 && x.members.find(x=>x.user.id == interaction.member.user.id));
-		if(user_chan.first()){
+		let user_chan = interaction.guild.channels ? (interaction.guild.channels.cache.filter(x=>x.type == 2 && x.members.find(x=>x.user.id == interaction.member.user.id))) : null;
+		if(user_chan && user_chan.first()){
 			if(subscribed[Object.keys(subscribed).find(x=>subscribed[x].guild == interaction.guild.id)]){
 				subscribed[Object.keys(subscribed).find(x=>subscribed[x].guild == interaction.guild.id)].queue = [];
 				subscribed[Object.keys(subscribed).find(x=>subscribed[x].guild == interaction.guild.id)].player.stop();
