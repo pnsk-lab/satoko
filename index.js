@@ -617,7 +617,7 @@ client.on("interactionCreate", async(interaction)=>{
 					content: "生成中ですわ..."
 				});
 				try{
-					cp.execSync("cd dic/build && sudo /usr/lib/mecab/mecab-dict-index -o /usr/jtalk/dic");
+					cp.execSync("cd dic/build && doas /usr/lib/mecab/mecab-dict-index -o /usr/jtalk/dic");
 					await msg.edit({
 						content: "生成に成功しましたわ。"
 					});
@@ -626,7 +626,7 @@ client.on("interactionCreate", async(interaction)=>{
 						content: "生成に失敗しましたわ。revertしますわ。"
 					});
 					fs.writeFileSync("dic/build/custom.csv", rev);
-					cp.execSync("cd dic/build && sudo /usr/lib/mecab/mecab-dict-index -o /usr/jtalk/dic");
+					cp.execSync("cd dic/build && doas /usr/lib/mecab/mecab-dict-index -o /usr/jtalk/dic");
 					await msg.edit({
 						content: "revertしましたわ。"
 					});
