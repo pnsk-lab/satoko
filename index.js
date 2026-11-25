@@ -341,6 +341,8 @@ client.once("clientReady", async()=>{
 					fs.rmSync(txtname);
 	
 					if(f){
+						if(fs.existsSync(wavname)) fs.rmSync(wavname);
+
 						if(subscribed[i].queue[0].msg){
 							subscribed[i].queue[0].msg.react("❌");
 						}
